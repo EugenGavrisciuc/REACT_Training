@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import ClassCounter from "./components/ClassCounter";
 import Counter from "./components/Counter";
 import PostItem from "./components/PostItem";
 import PostList from "./components/PostList"
+import MyButton from "./components/UI/button/MyButton"
+import MyInput from "./components/UI/input/MyInput"
 import "./styles/App.css";
 
 function App() {
@@ -13,18 +15,40 @@ function App() {
 		{id: 3, title:"Javascript 3", body: "Description 3"}
 	])
 
-	const [posts2, statePosts2] = useState([
-		{id: 1, title:"Python", body: "Description"},
-		{id: 2, title:"Python 2", body: "Description 2"},
-		{id: 3, title:"Python 3", body: "Description 3"}
-	])
+	const [title, setTitle] = useState('');
+	const bodyInputRef = useRef();
+
+	const addNewPost = (e) => {
+		e.preventDefault();
+		console.log(title);
+		console.log(bodyInputRef.current.value);
+
+	}
+
 
 	return (
 		<div className="App">
-			{/* <Counter/> */}
-			{/* <ClassCounter/> */}
+			<form>
+				{/*Component controlabil*/}
+				<MyInput
+				value={title}
+				onChange={e => setTitle(e.target.value)}
+				type="text"
+				placeholder="Name"
+				/>
+				
+				{/* <input ref={bodyInputRef} type="text"/> */}
+
+				{/* Component necontrolabil */}
+				<MyInput
+				ref={bodyInputRef}
+				type="text"
+				placeholder="Post description"
+				/>
+
+				<MyButton onClick={addNewPost}>Create new post</MyButton>
+			</form>
 			{<PostList posts={posts} title="Posts about JS"/>}
-			{<PostList posts={posts2} title="Posts about Python"/>}
 		</div>
 	);
 }
